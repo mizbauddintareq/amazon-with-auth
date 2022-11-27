@@ -3,8 +3,16 @@ import { Link } from "react-router-dom";
 import { AuthContext } from "../../context/UserContext";
 import logo from "../../images/Logo.svg";
 const Header = () => {
-  const { user } = useContext(AuthContext);
-  console.log(user.name);
+  const { user, signOutUser } = useContext(AuthContext);
+  const handleLogOut = () => {
+    signOutUser()
+      .then(() => {
+        console.log("logout success");
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
   return (
     <div className=" bg-slate-900">
       <div className="navbar text-white mx-auto lg:w-10/12">
@@ -60,7 +68,11 @@ const Header = () => {
               <Link to="/inventory">Manage Inventory</Link>
             </li>
             <li>
-              <Link to="/login">Login</Link>
+              {user?.uid ? (
+                <button onClick={handleLogOut}>Logout</button>
+              ) : (
+                <Link to="/login">Login</Link>
+              )}
             </li>
           </ul>
         </div>
