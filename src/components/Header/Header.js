@@ -1,6 +1,10 @@
+import { useContext } from "react";
 import { Link } from "react-router-dom";
+import { AuthContext } from "../../context/UserContext";
 import logo from "../../images/Logo.svg";
 const Header = () => {
+  const { user } = useContext(AuthContext);
+  console.log(user.name);
   return (
     <div className=" bg-slate-900">
       <div className="navbar text-white mx-auto lg:w-10/12">

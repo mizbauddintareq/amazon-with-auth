@@ -1,12 +1,32 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
 const Registration = () => {
+  const [error, setError] = useState(null);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    const form = e.target;
+
+    const email = form.email.value;
+    const password = form.password.value;
+    const confirm = form.confirm.value;
+
+    if (password !== confirm) {
+      setError("Password didn't match");
+      return;
+    } else if (password.length > 6) {
+      setError("Password must be 6 char at least");
+      return;
+    }
+  };
+
   return (
     <div className="md:w-6/12 mx-auto">
       <div>
         <h3 className="text-3xl text-center">Sign Up</h3>
-        <form>
+        <form onSubmit={handleSubmit}>
           <div className="form-control w-full max-w-xs mx-auto ">
             <label className="label">
               <span className="label-text">Email</span>
@@ -55,6 +75,26 @@ const Registration = () => {
               </small>
             </label>
           </div>
+          {error && (
+            <div className="alert alert-error shadow-lg form-control w-full max-w-xs  mx-auto">
+              <div>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="stroke-current flex-shrink-0 h-6 w-6"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
+                  />
+                </svg>
+                <span>{error}</span>
+              </div>
+            </div>
+          )}
         </form>
       </div>
     </div>
